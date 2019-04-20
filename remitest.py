@@ -1,5 +1,6 @@
 import remi.gui as gui
 from remi import start, App
+import socket
 
 class MyApp(App):
     def __init__(self, *args):
@@ -22,8 +23,13 @@ class MyApp(App):
 
     # listener function
     def on_button_pressed(self, widget):
-        self.lbl.set_text('Button pressed!')
-        self.bt.set_text('Hi!')
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        result = sock.connect_ex(('127.0.0.1',5432))
+        if result == 0:
+            print("Port is Open")
+        else:
+             print("Port is closed")
+        sock.close()
 
 # starts the web server
 start(MyApp)
